@@ -1,0 +1,5 @@
+"0","(surv_cox <- coxph(Surv(surv_mo_num, event_f) ~ sex + approx_age + province, cerv))
+"
+"2","Error in terms.formula(formula, specials = ss, data = data) : 
+  object 'cerv' not found
+"

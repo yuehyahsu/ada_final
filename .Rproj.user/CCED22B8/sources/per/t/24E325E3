@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1586921975918.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2098010506",
+    "id" : "24E325E3",
+    "lastKnownWriteTime" : 1586926592,
+    "last_content_update" : 1586926592110,
+    "path" : "C:/Users/yuehy/Google Drive/01_projects/ada_final/02_analysis/04_cox_multiv.R",
+    "project_path" : "02_analysis/04_cox_multiv.R",
+    "properties" : {
+        "cursorPosition" : "2,17",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

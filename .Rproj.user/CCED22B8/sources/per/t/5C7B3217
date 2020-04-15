@@ -5,21 +5,21 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "0",
+    "hash" : "4155083245",
     "id" : "5C7B3217",
-    "lastKnownWriteTime" : 1586921214,
-    "last_content_update" : 1586921214504,
+    "lastKnownWriteTime" : 1586922704,
+    "last_content_update" : 1586922704486,
     "path" : "C:/Users/yuehy/Google Drive/01_projects/ada_final/02_analysis/03_cox_univ_models.R",
     "project_path" : "02_analysis/03_cox_univ_models.R",
     "properties" : {
-        "cursorPosition" : "0,0",
+        "cursorPosition" : "12,25",
         "scrollLine" : "0",
         "tempName" : "Untitled1"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 7,
+    "relative_order" : 3,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"

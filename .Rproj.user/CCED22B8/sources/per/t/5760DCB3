@@ -5,20 +5,20 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "0",
+    "hash" : "2904086703",
     "id" : "5760DCB3",
-    "lastKnownWriteTime" : 1586919926,
-    "last_content_update" : 1586919926293,
+    "lastKnownWriteTime" : 1586922702,
+    "last_content_update" : 1586922702499,
     "path" : "C:/Users/yuehy/Google Drive/01_projects/ada_final/00_R/01_load_packages.R",
     "project_path" : "00_R/01_load_packages.R",
     "properties" : {
-        "cursorPosition" : "5,0",
+        "cursorPosition" : "7,0",
         "scrollLine" : "0"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 5,
+    "relative_order" : 9,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"

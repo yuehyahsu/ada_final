@@ -26,6 +26,14 @@ source("02_analysis/01_visualize.R")
 source("02_analysis/02_k-m_stats.R")
 ```
 
+```{r demographics, echo = F, results = 'asis'}
+source("02_analysis/05_demographics.R")
+
+print(table01,
+      rtitle = "Table 1: Descriptives")
+```
+
+
 ```{r plots}
 ### density plots
 
@@ -93,5 +101,11 @@ province_surv
 summary(sex_surv_cox)
 summary(age_surv_cox)
 summary(province_surv_cox)
+```
+
+```{r cox multivariate}
+(surv_cox <- coxph(Surv(survival_days, event, type = "right") ~ sex + approx_age + province, data))
+
+summary(surv_cox)
 ```
 
