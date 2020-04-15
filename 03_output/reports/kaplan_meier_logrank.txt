@@ -1,0 +1,43 @@
+> (sex_surv_lr <- survdiff(Surv(survival_days, event, type = "right") ~ sex, data))
+Call:
+survdiff(formula = Surv(survival_days, event, type = "right") ~ 
+    sex, data = data)
+
+n=58, 3193 observations deleted due to missingness.
+
+            N Observed Expected (O-E)^2/E (O-E)^2/V
+sex=female 20       20     22.2     0.218     0.411
+sex=male   38       38     35.8     0.135     0.411
+
+ Chisq= 0.4  on 1 degrees of freedom, p= 0.5 
+> (age_surv_lr <- survdiff(Surv(survival_days, event, type = "right") ~ age_cat, data))
+Call:
+survdiff(formula = Surv(survival_days, event, type = "right") ~ 
+    age_cat, data = data)
+
+n=58, 3193 observations deleted due to missingness.
+
+             N Observed Expected (O-E)^2/E (O-E)^2/V
+age_cat=30s  1        1   0.0862   9.68621  10.60000
+age_cat=50s  6        6   4.5561   0.45759   0.56802
+age_cat=60s 10       10  11.6466   0.23279   0.33571
+age_cat=70s 16       16  14.6118   0.13188   0.21023
+age_cat=80s 19       19  18.8365   0.00142   0.00241
+age_cat=90s  6        6   8.2627   0.61964   0.83478
+
+ Chisq= 12.3  on 5 degrees of freedom, p= 0.03 
+> (province_surv_lr <- survdiff(Surv(survival_days, event, type = "right") ~ province, data))
+Call:
+survdiff(formula = Surv(survival_days, event, type = "right") ~ 
+    province, data = data)
+
+n=58, 3193 observations deleted due to missingness.
+
+                           N Observed Expected (O-E)^2/E (O-E)^2/V
+province=Daegu            20       20  11.7119      5.87      9.51
+province=Gangwon-do        1        1   0.0862      9.69     10.60
+province=Gyeonggi-do       1        1   0.0862      9.69     10.60
+province=Gyeongsangbuk-do 35       35  43.4579      1.65      8.05
+province=Ulsan             1        1   2.6578      1.03      1.28
+
+ Chisq= 33.5  on 4 degrees of freedom, p= 1e-06 
