@@ -13,7 +13,7 @@ data %>%
 data %>% 
     filter(state == "deceased") %>% 
     mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
-    ggplot(aes(x = survival_days, color = age)) +
+    ggplot(aes(x = survival_days, color = age_cat)) +
     geom_density(alpha = 0.3) +
     xlab("Days of Survival") +
     scale_color_discrete(name = "Age") +
@@ -30,14 +30,16 @@ data %>%
 
 
 ### K-M values and K-M curves
-stage_surv <- survfit(Surv(survival_days, event_f, type = "right") ~ stage_f, cerv)
-insurance_surv <- survfit(Surv(surv_mo_num, event_f, type = "right") ~ insurance_f, cerv)
+sex_surv <- survfit(Surv(survival_days, event, type = "right") ~ sex, data)
+#age_surv_data <- data %>%
+#    filter(age_cat %in% c("30s", "50s", "60s", "70s", "80s", "90s")) 
+age_surv <- survfit(Surv(survival_days, event, type = "right") ~ age_cat, data)
+province_surv <- survfit(Surv(survival_days, event, type = "right") ~ province, data)
 
-autoplot(stage_surv) +
-    labs(x = "Survival Months", y = "Proportion Surviving", title = "KM Survival Plots by Stage at Diagnosis") +
-    theme_bw()
-autoplot(insurance_surv) +
-    labs(x = "Insurance Status at Diagnosis", y = "Proportion Surviving",
-         title = "KM Survival Plots by Insurance Status at Diagnosis")+
+autoplot(sex_surv) +
+    labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Sex") +
     theme_bw()
 
+ggsurvplot(age_surv, data = data, conf.int = F)
+
+ggsurvplot(province_surv, data = data, conf.int = F)

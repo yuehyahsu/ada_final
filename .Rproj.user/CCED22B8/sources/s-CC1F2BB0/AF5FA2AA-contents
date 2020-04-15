@@ -12,4 +12,4 @@ data <- patient_info %>%
     select(-code, -min_temp, -max_temp, -most_wind_direction) %>% 
     filter(is.na(survival_days) | !(survival_days < 0)) # there are some negative survival days -- bad data?
 
-saveRDS(data, file = "./01_data/processed/data.rds")
+#saveRDS(data, file = "./01_data/processed/data.rds")
