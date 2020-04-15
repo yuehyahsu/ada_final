@@ -30,8 +30,8 @@ data %>%
 
 
 ### K-M values and K-M curves
-stage_surv <- survfit(Surv(survival_days, event_f) ~ stage_f, cerv)
-insurance_surv <- survfit(Surv(surv_mo_num, event_f) ~ insurance_f, cerv)
+stage_surv <- survfit(Surv(survival_days, event_f, type = "right") ~ stage_f, cerv)
+insurance_surv <- survfit(Surv(surv_mo_num, event_f, type = "right") ~ insurance_f, cerv)
 
 autoplot(stage_surv) +
     labs(x = "Survival Months", y = "Proportion Surviving", title = "KM Survival Plots by Stage at Diagnosis") +
