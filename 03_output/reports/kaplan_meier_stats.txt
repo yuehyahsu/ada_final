@@ -1,0 +1,33 @@
+> sex_surv
+Call: survfit(formula = Surv(survival_days, event, type = "right") ~ 
+    sex, data = data)
+
+   3193 observations deleted due to missingness 
+            n events median 0.95LCL 0.95UCL
+sex=female 20     20    6.5       3      11
+sex=male   38     38    5.0       4       8
+
+> age_surv
+Call: survfit(formula = Surv(survival_days, event, type = "right") ~ 
+    age_cat, data = data)
+
+   3193 observations deleted due to missingness 
+             n events median 0.95LCL 0.95UCL
+age_cat=30s  1      1    0.0      NA      NA
+age_cat=50s  6      6    4.0       3      NA
+age_cat=60s 10     10    6.0       3      NA
+age_cat=70s 16     16    4.5       1      12
+age_cat=80s 19     19    6.0       3      13
+age_cat=90s  6      6   10.0       7      NA
+
+> province_surv
+Call: survfit(formula = Surv(survival_days, event, type = "right") ~ 
+    province, data = data)
+
+   3193 observations deleted due to missingness 
+                           n events median 0.95LCL 0.95UCL
+province=Daegu            20     20      5       2       6
+province=Gangwon-do        1      1      0      NA      NA
+province=Gyeonggi-do       1      1      0      NA      NA
+province=Gyeongsangbuk-do 35     35      9       4      12
+province=Ulsan             1      1     32      NA      NA

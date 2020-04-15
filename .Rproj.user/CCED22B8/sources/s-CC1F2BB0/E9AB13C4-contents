@@ -10,3 +10,7 @@ source("00_R/02_functions.R")
 source("01_data/03_load_data.R")
 source("01_data/04_clean_data.R")
 
+# Exploratory analysis ----------------------------------------------------
+
+source("02_analysis/01_visualize.R")
+source("02_analysis/02_k-m_stats.R")

@@ -1,0 +1,3 @@
+sex_surv
+age_surv
+province_surv
