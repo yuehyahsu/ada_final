@@ -1,3 +1,5 @@
+### density plots
+
 data %>% 
     filter(state == "deceased") %>% 
     mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
@@ -25,3 +27,17 @@ data %>%
     xlab("Days of Survival") +
     scale_color_discrete(name = "Province") +
     theme_bw()
+
+
+### K-M values and K-M curves
+stage_surv <- survfit(Surv(survival_days, event_f) ~ stage_f, cerv)
+insurance_surv <- survfit(Surv(surv_mo_num, event_f) ~ insurance_f, cerv)
+
+autoplot(stage_surv) +
+    labs(x = "Survival Months", y = "Proportion Surviving", title = "KM Survival Plots by Stage at Diagnosis") +
+    theme_bw()
+autoplot(insurance_surv) +
+    labs(x = "Insurance Status at Diagnosis", y = "Proportion Surviving",
+         title = "KM Survival Plots by Insurance Status at Diagnosis")+
+    theme_bw()
+
