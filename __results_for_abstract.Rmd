@@ -1,0 +1,95 @@
+---
+title: "Results for Abstract"
+author: "Sherly Boddu and Sam Hsu"
+date: "4/14/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, include = F}
+source("00_R/01_load_packages.R")
+source("00_R/02_functions.R")
+```
+
+```{r data prep, include = F}
+source("01_data/03_load_data.R")
+source("01_data/04_clean_data.R")
+```
+
+```{r results}
+source("02_analysis/01_visualize.R")
+source("02_analysis/02_k-m_stats.R")
+```
+
+```{r plots}
+### density plots
+
+data %>% 
+    filter(state == "deceased") %>% 
+    mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
+    ggplot(aes(x = survival_days, color = sex)) +
+    geom_density(alpha = 0.3) +
+    xlab("Days of Survival") +
+    scale_color_discrete(name = "Sex") +
+    theme_bw()
+
+
+data %>% 
+    filter(state == "deceased") %>% 
+    mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
+    ggplot(aes(x = survival_days, color = age_cat)) +
+    geom_density(alpha = 0.3) +
+    xlab("Days of Survival") +
+    scale_color_discrete(name = "Age") +
+    theme_bw()
+
+data %>% 
+    filter(state == "deceased") %>% 
+    mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
+    ggplot(aes(x = survival_days, color = province)) +
+    geom_density(alpha = 0.3) +
+    xlab("Days of Survival") +
+    scale_color_discrete(name = "Province") +
+    theme_bw()
+
+
+### K-M values and K-M curves
+sex_surv <- survfit(Surv(survival_days, event, type = "right") ~ sex, data)
+#age_surv_data <- data %>%
+#    filter(age_cat %in% c("30s", "50s", "60s", "70s", "80s", "90s")) 
+age_surv <- survfit(Surv(survival_days, event, type = "right") ~ age_cat, data)
+province_surv <- survfit(Surv(survival_days, event, type = "right") ~ province, data)
+
+autoplot(sex_surv) +
+    labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Sex") +
+    theme_bw()
+
+ggsurvplot(age_surv, data = data, conf.int = F)
+
+ggsurvplot(province_surv, data = data, conf.int = F)
+
+```
+
+```{r stats}
+sex_surv
+age_surv
+province_surv
+
+(sex_surv_lr <- survdiff(Surv(survival_days, event, type = "right") ~ sex, data))
+(age_surv_lr <- survdiff(Surv(survival_days, event, type = "right") ~ age_cat, data))
+(province_surv_lr <- survdiff(Surv(survival_days, event, type = "right") ~ province, data))
+```
+
+```{r cox univariate}
+(sex_surv_cox <- coxph(Surv(survival_days, event, type = "right") ~ sex, data))
+(age_surv_cox <- coxph(Surv(survival_days, event, type = "right") ~ approx_age, data))
+(province_surv_cox <- coxph(Surv(survival_days, event, type = "right") ~ province, data))
+
+summary(sex_surv_cox)
+summary(age_surv_cox)
+summary(province_surv_cox)
+```
+

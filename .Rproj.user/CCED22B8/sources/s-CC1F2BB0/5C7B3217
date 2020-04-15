@@ -1,25 +1,25 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1586916632659.000,
+    "created" : 1586921097486.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "0",
-    "id" : "E9AB13C4",
-    "lastKnownWriteTime" : 1586920535,
-    "last_content_update" : 1586920535126,
-    "path" : "C:/Users/yuehy/Google Drive/01_projects/ada_final/__master_analysis_script.R",
-    "project_path" : "__master_analysis_script.R",
+    "id" : "5C7B3217",
+    "lastKnownWriteTime" : 1586921214,
+    "last_content_update" : 1586921214504,
+    "path" : "C:/Users/yuehy/Google Drive/01_projects/ada_final/02_analysis/03_cox_univ_models.R",
+    "project_path" : "02_analysis/03_cox_univ_models.R",
     "properties" : {
-        "cursorPosition" : "14,0",
+        "cursorPosition" : "0,0",
         "scrollLine" : "0",
         "tempName" : "Untitled1"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 1,
+    "relative_order" : 7,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"
