@@ -10,6 +10,6 @@ data <- patient_info %>%
     select(-code:-university_count, -nursing_home_count) %>% 
     left_join(weather, by = c("province" = "province", "confirmed_date" = "date")) %>% 
     select(-code, -min_temp, -max_temp, -most_wind_direction) %>% 
-    filter(is.na(survival_days) | !(survival_days < 0)) # there are some negative survival days -- bad data?
+    filter(is.na(survival_days) | !(survival_days < 0))  # there are some negative survival days -- bad data?
 
 #saveRDS(data, file = "./01_data/processed/data.rds")
