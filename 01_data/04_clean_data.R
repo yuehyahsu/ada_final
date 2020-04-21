@@ -3,7 +3,7 @@ data <- patient_info %>%
            deceased_date, state) %>% 
     mutate(approx_age = 2020 - birth_year,
            resolved_date = coalesce(released_date, deceased_date),
-           survival_days = deceased_date - confirmed_date,
+           survival_days = resolved_date - confirmed_date,
            event = if_else(state == "deceased", 1, 0)) %>% 
     rename(age_cat = age) %>% 
     left_join(region, by = c("province", "city")) %>% 

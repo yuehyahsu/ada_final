@@ -1,3 +1,3 @@
-(surv_cox <- coxph(Surv(surv_mo_num, event_f) ~ sex + approx_age + province, cerv))
+(surv_cox <- coxph(Surv(survival_days, event) ~ sex + approx_age + province, data))
 
 summary(surv_cox)
