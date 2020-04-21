@@ -3,8 +3,8 @@ title: "Results for Abstract v.2"
 author: "Sherly Boddu and Sam Hsu"
 date: "4/21/2020"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -107,5 +107,10 @@ summary(province_surv_cox)
 (surv_cox <- coxph(Surv(survival_days, event, type = "right") ~ sex + approx_age + province, data))
 
 summary(surv_cox)
+```
+
+```{r map}
+source("03_output/figure01_map.R")
+map_clusters
 ```
 
