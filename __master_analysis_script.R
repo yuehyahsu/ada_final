@@ -17,3 +17,8 @@ source("02_analysis/02_k-m_stats.R")
 source("02_analysis/03_cox_univ_models.R")
 source("02_analysis/04_cox_multiv.R")
 source("02_analysis/05_demographics.R")
+
+# Outputs -----------------------------------------------------------------
+
+source("03_output/figure01_map.R")
+

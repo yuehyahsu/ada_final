@@ -1,35 +1,142 @@
 ---
-title: "ADA Final Presentation"
+title: "Survival Analysis of COVID-19 Patients in South Korea"
 author: "Sherly Boddu and Sam Hsu"
-date: "4/8/2020"
-output: ioslides_presentation
+date: "4/21/2020"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## R Markdown
-
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
-
-## Slide with Bullets
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-## Slide with R Output
-
-```{r cars, echo = TRUE}
-summary(cars)
+```{r scripts, include = F}
+source("__master_analysis_script.R")
 ```
 
-## Slide with Plot
+## Outline
+1. __Background__: COVID-19 in South Korea
+2. __Objectives__: Understanding survival rates by age, sex, and province
+3. __Methods__: Cox proportional hazards regression
+4. __Results__
+a) Individual and geographic demographics
+b) Results from survival analysis
+5. __Discussion__
 
-```{r pressure}
-plot(pressure)
+## COVID-19 in Korea
+- __Global__
+    + 2,501,156 Confirmed Cases
+    + 171,810 Deaths
+
+- __South Korea__
+    + 10,683 Confirmed Cases
+    + 237 Deaths
+
+- __Transparency of Data__
+
+We should discuss a bit of the history here; like Shincheonji church and its status as one of the first high profile countries to be affected.
+
+## Risk Factors for Mortality
+- Age (mixed evidence)
+    + Important independent predictor of mortality in SARS and MERS.9
+    + Increased age was associated with death in patients with COVID-19.9
+    + Average age of death reported as 17 years of age.10
+    + Most deaths seen in those aged 40-60.11
+
+- Sex (male)
+    + More deaths reported in males in both China & Italy.10,11
+    + Possibly confounding with smoking and comorbidities.10,11
+
+- Demographic location - as related to policies
+
+
+## Mapping Case Distribution
+
+## COVID-19 Clusters
+
+```{r}
+map_clusters
 ```
 
+## Purpose
+- Identify demographic and regional characteristics that impact survival of COVID-19 in South Korea
+- Add to the novel body of scientific literature for risk factors of COVID-19
+
+## Methods
+
+## Analysis
+
+## Results
+```{r, results='asis'}
+print(table01,
+      rtitle = "Table 1: Descriptives")
+```
+
+## Density Curve by Sex
+```{r}
+data %>% 
+    filter(state == "deceased") %>% 
+    mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
+    ggplot(aes(x = survival_days, color = sex)) +
+    geom_density(alpha = 0.3) +
+    xlab("Days of Survival") +
+    scale_color_discrete(name = "Sex") +
+    theme_bw()
+```
+
+## Density Curve by Age
+```{r}
+data %>% 
+    filter(state == "deceased") %>% 
+    mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
+    ggplot(aes(x = survival_days, color = age_cat)) +
+    geom_density(alpha = 0.3) +
+    xlab("Days of Survival") +
+    scale_color_discrete(name = "Age") +
+    theme_bw()
+```
+
+## Density Curve by Province
+```{r}
+data %>% 
+    filter(state == "deceased") %>% 
+    mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
+    ggplot(aes(x = survival_days, color = province)) +
+    geom_density(alpha = 0.3) +
+    xlab("Days of Survival") +
+    scale_color_discrete(name = "Province") +
+    theme_bw()
+```
+
+## K-M by Sex
+
+```{r}
+autoplot(sex_surv) +
+    labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Sex") +
+    theme_bw()
+```
+
+## K-M by Age
+
+```{r}
+autoplot(age_surv) +
+    labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Age") + 
+    theme_bw()
+```
+
+## K-M by Province
+```{r}
+autoplot(province_surv) +
+    labs(x = "Survival Days", y = "Proportion Surviving",
+         title = "KM Survival Plots by Province") + 
+    theme_bw()
+```
+
+## Cox Results
+
+## DAG
+
+## Discussion
+
+## References

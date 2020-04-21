@@ -77,9 +77,16 @@ autoplot(sex_surv) +
     labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Sex") +
     theme_bw()
 
-ggsurvplot(age_surv, data = data, conf.int = F)
+autoplot(age_surv) +
+    labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Age") + 
+    theme_bw()
 
-ggsurvplot(province_surv, data = data, conf.int = F)
+
+autoplot(province_surv) +
+    labs(x = "Survival Days", y = "Proportion Surviving",
+         title = "KM Survival Plots by Province") + 
+    theme_bw()
+
 
 ```
 
