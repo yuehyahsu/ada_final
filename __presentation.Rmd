@@ -65,6 +65,9 @@ map_clusters
 
 ## Methods
 
+- Exclusion Criteria
+    + Only including provinces with at least 1 death: Busan, Daegu, Gangwon-do, Gyeonggi-do, Gyeongsangbuk-do, Seoul, Ulsan
+
 ## Analysis
 
 ## Results

@@ -1,18 +1,3 @@
-data_table01 <- data %>% 
-    mutate(province_cat = recode(province,
-                                 "Incheon" = "Other",
-                                 "Daegu" = "other",
-                                 "Sejong" = "Other",
-                                 "Chungcheongbuk-do" = "Other",
-                                 "Ulsan" = "Other",
-                                 "Daejeon" = "Other",
-                                 "Gangwon-do" = "Other",
-                                 "Gwangju" = "Other",
-                                 "Jeollabuk-do" = "Other",
-                                 "Jeollanam-do" = "Other",
-                                 "Jeju-doJeju-do" = "Other")) %>% 
-    mutate(resolution_days = as.numeric(resolved_date - confirmed_date), units = "days")
-
 options(qwraps2_markup = "markdown")
 .n_perc0 <- hijack(n_perc0, na_rm = T, digits = 1, show_symbol = T)
 
@@ -24,15 +9,15 @@ summary <-
              list("Mean (SD)" = ~ mean_sd(approx_age,
                                           denote_sd = "paren", na_rm = T, show_n = "never")),
          "Province:" = 
-             list("Gyeongsangbuk-do" = ~ .n_perc0(province == "Gyeongsangbuk-do"),
+             list("Busan" = ~ .n_perc0(province == "Busan"),
+                  "Daegu" = ~ .n_perc0(province == "Daegu"),
+                  "Gangwon-do" = ~ .n_perc0(province == "Gangwon-do"),
                   "Gyeonggi-do" = ~ .n_perc0(province == "Gyeonggi-do"),
+                  "Gyeongsangbuk-do" = ~ .n_perc0(province == "Gyeongsangbuk-do"),
                   "Seoul" = ~ .n_perc0(province == "Seoul"),
-                  "Chungcheongnam-do" = ~ .n_perc0(province == "Chungcheongnam-do"),
-                  "Busan" = ~ .n_perc0(province == "Busan"),
-                  "Gyeongsangnam-do" = ~ .n_perc0(province == "Gyeongsangnam-do"),
-                  "Other" = ~ .n_perc0(province_cat == "Other")),
+                  "Ulsan" = ~ .n_perc0(province == "Ulsan")),
          "Days to Resolution (Death or Release):" = 
-             list("Mean (SD)" = ~ mean_sd(resolution_days,
+             list("Mean (SD)" = ~ mean_sd(survival_days,
                                           denote_sd = "paren", na_rm = T, show_n = "never")),
          "Disease State:" = 
              list("Deceased" = ~ .n_perc0(state == "deceased"),
@@ -40,4 +25,4 @@ summary <-
                   "Released" = ~ .n_perc0(state == "released"))
     )
 
-table01 <- summary_table(data_table01, summary)
+table01 <- summary_table(data, summary)

@@ -31,15 +31,19 @@ data %>%
 
 ### K-M values and K-M curves
 sex_surv <- survfit(Surv(survival_days, event, type = "right") ~ sex, data)
-#age_surv_data <- data %>%
-#    filter(age_cat %in% c("30s", "50s", "60s", "70s", "80s", "90s")) 
-age_surv <- survfit(Surv(survival_days, event, type = "right") ~ age_cat, data)
+age_surv_data <- data %>%
+    filter(age_cat %in% c("30s", "50s", "60s", "70s", "80s", "90s")) 
+age_surv <- survfit(Surv(survival_days, event, type = "right") ~ age_cat, age_surv_data)
 province_surv <- survfit(Surv(survival_days, event, type = "right") ~ province, data)
 
 autoplot(sex_surv) +
     labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Sex") +
     theme_bw()
 
-ggsurvplot(age_surv, data = data, conf.int = F)
+autoplot(age_surv) +
+    labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Age") +
+    theme_bw()
 
-ggsurvplot(province_surv, data = data, conf.int = F)
+autoplot(province_surv) +
+    labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Province") +
+    theme_bw()
