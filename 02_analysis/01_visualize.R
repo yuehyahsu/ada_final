@@ -1,6 +1,6 @@
 ### density plots
 
-data %>% 
+density_sex <- data %>% 
     filter(state == "deceased") %>% 
     mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
     ggplot(aes(x = survival_days, color = sex)) +

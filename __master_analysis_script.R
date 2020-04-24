@@ -21,4 +21,5 @@ source("02_analysis/05_demographics.R")
 # Outputs -----------------------------------------------------------------
 
 source("03_output/figure01_map.R")
-
+source("03_output/figure02_cox_viz.R")
+source("03_output/table02_cox_results.R")

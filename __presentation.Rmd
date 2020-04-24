@@ -20,9 +20,13 @@ source("__master_analysis_script.R")
 2. __Objectives__: Understanding survival rates by age, sex, and province
 3. __Methods__: Cox proportional hazards regression
 4. __Results__
-a) Individual and geographic demographics
-b) Results from survival analysis
+    a. Individual and geographic demographics
+    b. Results from Cox proportional hazards model
 5. __Discussion__
+
+```{r, out.width = "1200px"}
+knitr::include_graphics("./03_output/presentation_images/COVID-19Graph.gif")
+```
 
 ## COVID-19 in Korea
 - __Global__
@@ -33,25 +37,98 @@ b) Results from survival analysis
     + 10,683 Confirmed Cases
     + 237 Deaths
 
-- __Transparency of Data__
-
-We should discuss a bit of the history here; like Shincheonji church and its status as one of the first high profile countries to be affected.
+- __Why South Korea?__
+    + Foreign Minister (Kang Kyung-wha), Korea CDC, Prime Minister and Task Force
+    + Transparency of data
+    + Rapid & Free Country-Wide Testing
+    + Open Surveillance and Open Data Sources
 
 ## Risk Factors for Mortality
 - Age (mixed evidence)
-    + Important independent predictor of mortality in SARS and MERS.9
-    + Increased age was associated with death in patients with COVID-19.9
-    + Average age of death reported as 17 years of age.10
-    + Most deaths seen in those aged 40-60.11
+    + Important independent predictor of mortality in SARS and MERS.
+    + Increased age was associated with death in patients with COVID-19.
+    + Most deaths seen in those aged 40-60.
 
 - Sex (male)
-    + More deaths reported in males in both China & Italy.10,11
-    + Possibly confounding with smoking and comorbidities.10,11
+    + More deaths reported in males in both China & Italy.
+    + Possible confounding with smoking and comorbidities.
 
-- Demographic location - as related to policies
+- Geographic Clustering & Policies
+    + Early adaptation of social distancing & closures
+    + Proximity to 'Patient 0' and metropolitan living
+    + Shincheonji Church Outbreak - 63.5% of all cases
+
+## Korean Provinces
+```{r}
+knitr::include_graphics("./03_output/presentation_images/korea_provinces.png")
+```
 
 
-## Mapping Case Distribution
+## Objectives
+- Identify demographic and regional characteristics that impact survival of COVID-19 in South Korea
+- Add to the novel body of literature about COVID-19 patterns
+
+## Data Source
+
+```{r, out.width = "1200px"}
+knitr::include_graphics("./03_output/presentation_images/kaggle.png")
+```
+
+- Retrospective cohort study
+    + COVID-19 Diagnosis between Jan 20, 2020 to Apr 20, 2020
+
+- Exclusion Criteria
+    + Only including provinces with at least 1 death: Busan, Daegu, Gangwon-do, Gyeonggi-do, Gyeongsangbuk-do, Seoul, Ulsan
+    
+## Analysis Plan
+- All analysis conducted using __R 3.6.3__. 
+    + Analysis packages: *survival*, *survminer*
+    + Visualization packages: *ggplot2*, *leaflet*, *sjPlot*
+    
+- Visualizations: geographic distribution, density plots, Kaplan-Meier plots
+
+- Cox proportional hazard regression:
+    + Survival days: # of days between confirmed and death or release (or 4/20, if still under observation)
+    + Outcome: death
+    + Covariates: age (calculated from birth year), sex, province
+    
+## DAG
+```{r, out.width = "1200px"}
+knitr::include_graphics("./03_output/presentation_images/DAG_HW10.png")
+```
+    
+## Statistical Analysis
+The *hazard function* is the instantaneous risk of death at time $t$, conditional on survival up to that time:
+$$h(t) = \lim_{\Delta t\rightarrow0} \frac{Pr[(t \leq T < t + \Delta t | T \geq t)]}{\Delta t}$$
+
+- Data is __right-censored__
+
+*Cox proportional-hazards model* for relationship of survival distribution to covariates:
+
+$$h_{i}(t) = h_{0}(t) \exp(\alpha + \beta_{sex}x_{i,sex} + \beta_{age}x_{i, age} + \beta_{province}x_{i, province})$$
+
+## Model Assumptions: Proportional Hazards
+
+We assume __proportional hazards__. This is acceptable, using the cox.zph function to test.
+
+```{r}
+par(mfrow=c(2, 2))
+plot(cox.zph(surv_cox))
+```
+
+## Model Assumptions: No Influential Cases
+
+We assume no influential cases. This does not hold at the province level, but in certain provinces only 1 or 2 deaths were recorded.
+
+```{r}
+dfbeta <- residuals(surv_cox, type="dfbeta")
+
+par(mfrow=c(3,3))
+for (j in 1:8) {
+    plot(dfbeta[, j], ylab=names(coef(surv_cox))[j])
+    abline(h=0, lty=2)
+}
+```
 
 ## COVID-19 Clusters
 
@@ -59,37 +136,21 @@ We should discuss a bit of the history here; like Shincheonji church and its sta
 map_clusters
 ```
 
-## Purpose
-- Identify demographic and regional characteristics that impact survival of COVID-19 in South Korea
-- Add to the novel body of scientific literature for risk factors of COVID-19
-
-## Methods
-
-- Exclusion Criteria
-    + Only including provinces with at least 1 death: Busan, Daegu, Gangwon-do, Gyeonggi-do, Gyeongsangbuk-do, Seoul, Ulsan
-
-## Analysis
-
-## Results
+## Demographic Characteristics
 ```{r, results='asis'}
 print(table01,
-      rtitle = "Table 1: Descriptives")
+      rtitle = "Table 1: Characteristics of people diagnosed with COVID-19 in South Korea between 01/20/2020 and 04/20/2020",
+      cnames = c("Full sample (N = 2,772)",
+                 "Deaths only (N = 65)"))
 ```
 
 ## Density Curve by Sex
 ```{r}
-data %>% 
-    filter(state == "deceased") %>% 
-    mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
-    ggplot(aes(x = survival_days, color = sex)) +
-    geom_density(alpha = 0.3) +
-    xlab("Days of Survival") +
-    scale_color_discrete(name = "Sex") +
-    theme_bw()
+print(density_sex)
 ```
 
 ## Density Curve by Age
-```{r}
+```{r, warning = F}
 data %>% 
     filter(state == "deceased") %>% 
     mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
@@ -101,7 +162,7 @@ data %>%
 ```
 
 ## Density Curve by Province
-```{r}
+```{r, warning = F}
 data %>% 
     filter(state == "deceased") %>% 
     mutate(survival_days = as.numeric(survival_days, units = "days")) %>% 
@@ -112,9 +173,20 @@ data %>%
     theme_bw()
 ```
 
+## Cox Results
+```{r}
+table02
+```
+
+## Visualization of Cox Results
+```{r, warning=F, echo=F}
+print(figure02)
+```
+
+
 ## K-M by Sex
 
-```{r}
+```{r, warning = F}
 autoplot(sex_surv) +
     labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Sex") +
     theme_bw()
@@ -122,24 +194,71 @@ autoplot(sex_surv) +
 
 ## K-M by Age
 
-```{r}
+```{r, warning = F}
 autoplot(age_surv) +
     labs(x = "Survival Days", y = "Proportion Surviving", title = "KM Survival Plots by Age") + 
     theme_bw()
 ```
 
 ## K-M by Province
-```{r}
+```{r, warning = F}
 autoplot(province_surv) +
     labs(x = "Survival Days", y = "Proportion Surviving",
          title = "KM Survival Plots by Province") + 
     theme_bw()
 ```
 
-## Cox Results
+## Key Results
+- In our study locations, 2.4% of those diagnosed with COVID-19 have died.
 
-## DAG
+- There are statistically significant associations between sex and age and time to event.
+    + There is a __8% increase__ (HR = 1.08, 95% CI: 1.06-1.10) in the expected hazard relative to a one-year increase in age, holding sex and province constant.
+    + Men have a __233% higher__ (HR = 3.33, 95% CI: 1.99-5.57) expected hazard relative to women, holding age and province constant.
 
-## Discussion
+- There are statistically significant associations by province as well, although we caution that due to very low death counts it is difficult to draw any conclusions.
+    + Specifically, Daegu has a __1030% higher__ (HR = 11.3, 95% CI: 3.30-38.4) expected hazard relative to Busan, holding sex and age constant.
+
+## Consistency
+
+```{r, out.height= "320px"}
+knitr::include_graphics("./03_output/presentation_images/wsj_scj.png")
+```
+
+- Daegu's Shincheonji Church made international news for its role in worsening the spread of COVID-19 in South Korea by reportedly hiding names of members.
+
+- Early results from China and Italy also suggest that age and sex are risk factors for mortality. (Wu and McGoogan, 2020; Jordan, Adab, and Cheng, 2020; Livingston and Bucher, 2020)
+
+## Strengths and Limitations
+__Strengths__
+
+- South Korean data collection systems are very strong; contact tracing mechanisms suggest reliable data.
+
+- To our knowledge, no survival analysis published on COVID-19 cases in South Korea.
+
+__Limitations__
+
+- Low death counts are good! But they make drawing inferences about survival from covariates challenging.
+
+- Important unobserved variables: smoking status, prior chronic disease, secondary infection.
+
+- Province is not a fine-enough level of geographic analysis.
+
+## Future Directions
+- Statistical improvment: multilevel modeling for the province term
+- Incorporate key unobserved variables: smoking status, chronic disease, secondary infection.
+- Use tracking data to examine infection patterns
+
+## Questions?
+```{r, out.width = "1200px"}
+knitr::include_graphics("./03_output/presentation_images/hibye.gif")
+```
 
 ## References
+1. Worldometer. Coronavirus Cases. Worldometer. doi:10.1101/2020.01.23.20018549V2
+2. DeCamp M, Lehmann LS, Jaeel P, Horwitch C, ACP Ethics, Professionalism and Human Rights Committee. Ethical Obligations Regarding Short-Term Global Health Clinical Experiences: An American College of Physicians Position Paper. Ann Intern Med. 2018;168(9):651-657. doi:10.7326/M17-3361
+3. Jordan RE, Adab P, Cheng KK. Covid-19: risk factors for severe disease and death. BMJ. 2020;368:m1198. doi:10.1136/bmj.m1198
+4. Livingston E, Bucher K. Coronavirus Disease 2019 (COVID-19) in Italy. JAMA. 2020;323(14):1335-1335. doi:10.1001/jama.2020.4344
+5. Opinion | Why Are South Koreans Blaming a Church for the Coronavirus Outbreak? - The New York Times. https://www.nytimes.com/2020/03/09/opinion/coronavirus-south-korea-church.html. Accessed April 22, 2020.
+6. This is how South Korea contained COVID-19 | World Economic Forum. https://www.weforum.org/agenda/2020/03/south-korea-covid-19-containment-testing/. Accessed April 22, 2020.
+7. Wu Z, McGoogan JM. Characteristics of and Important Lessons from the Coronavirus Disease 2019 (COVID-19) Outbreak in China: Summary of a Report of 72314 Cases from the Chinese Center for Disease Control and Prevention. JAMA - J Am Med Assoc. 2020;323(13):1239-1242. doi:10.1001/jama.2020.2648
+8. Commitment, transparency pay off as South Korea limits COVID-19 spread – EURACTIV.com. https://www.euractiv.com/section/coronavirus/news/commitment-transparency-pay-off-as-south-korea-limits-covid-19-spread/. Accessed March 25, 2020.

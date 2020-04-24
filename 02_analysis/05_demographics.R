@@ -17,7 +17,7 @@ summary <-
                   "Seoul" = ~ .n_perc0(province == "Seoul"),
                   "Ulsan" = ~ .n_perc0(province == "Ulsan")),
          "Days to Resolution (Death or Release):" = 
-             list("Mean (SD)" = ~ mean_sd(survival_days,
+             list("Mean (SD)" = ~ mean_sd(resolved_days,
                                           denote_sd = "paren", na_rm = T, show_n = "never")),
          "Disease State:" = 
              list("Deceased" = ~ .n_perc0(state == "deceased"),
@@ -25,4 +25,17 @@ summary <-
                   "Released" = ~ .n_perc0(state == "released"))
     )
 
-table01 <- summary_table(data, summary)
+table_whole <- summary_table(data, summary)
+
+# the third column describes only those who are dead
+data_dead <- data %>% 
+    filter(event == 1)
+
+table_dead <- summary_table(data_dead, summary)
+
+table01 <- cbind(table_whole, table_dead)
+
+# print(table01,
+#       rtitle = "Table 1: Characteristics of people diagnosed with COVID-19 in South Korea between 01/20/2020 and 04/20/2020",
+#       cnames = c("Full sample (N = 2,772)",
+#                  "Deaths only (N = 65)"))
