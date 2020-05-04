@@ -1,5 +1,3 @@
-#register_google(key = "AIzaSyD0d-tYL6TgE4CPFHNzw_AlRg90J49-_Hc", write = TRUE)
-
 sk <- get_map(location = "south korea")
 
 data_clusters <- case %>% 
