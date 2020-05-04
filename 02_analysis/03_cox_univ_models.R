@@ -13,3 +13,6 @@ summary(province_surv_cox)
 summary(elderly_surv_cox)
 
 summary(temp_surv_cox)
+
+age_surv_cox %>% 
+    tbl_regression(exp = T)
